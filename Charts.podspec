@@ -13,15 +13,8 @@ Pod::Spec.new do |s|
   s.swift_version = '5.0'
   s.cocoapods_version = '>= 1.5.0'
   
-  s.ios.pod_target_xcconfig = { 'VALID_ARCHS' => 'arm64 armv7 armv7s x86_64' }
-  s.ios.user_target_xcconfig = { 'VALID_ARCHS' => 'arm64 armv7 armv7s x86_64' }
-  
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
-  end
-  
-  s.subspec "Framework" do |ss|
-    ss.ios.vendored_framework = "ios/Charts.framework"
   end
   
 end
