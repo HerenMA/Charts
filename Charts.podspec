@@ -16,4 +16,9 @@ Pod::Spec.new do |s|
   s.subspec "Core" do |ss|
     ss.source_files  = "Source/Charts/**/*.swift"
   end
+  
+  s.subspec "Framework" do |ss|
+    ss.ios.vendored_frameworks = "ios/Charts.framework"
+  end
+  
 end
