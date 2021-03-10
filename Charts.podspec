@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec "Framework" do |ss|
-    ss.ios.vendored_frameworks = "ios/Charts.framework"
+    ss.ios.vendored_framework = "ios/Charts.framework"
   end
   
 end
