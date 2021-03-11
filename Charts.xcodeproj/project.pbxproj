@@ -6,6 +6,20 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		FEDD34D525F9A0AA0065E706 /* Aggregate */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = FEDD34D825F9A0AA0065E706 /* Build configuration list for PBXAggregateTarget "Aggregate" */;
+			buildPhases = (
+				FEDD34DD25F9A0BA0065E706 /* ShellScript */,
+			);
+			dependencies = (
+			);
+			name = Aggregate;
+			productName = Aggregate;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		00B8BF5901C2D220357B0B2A /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 41DDB768A1D033A34F0EF9E0 /* Media.xcassets */; };
 		00BC23EF0E04E17188344403 /* BarChartDataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7184C8A5A60A3522AB9B05 /* BarChartDataProvider.swift */; };
@@ -760,6 +774,10 @@
 					F2749BD5443C1CB5FE2080C2 = {
 						LastSwiftMigration = 0900;
 					};
+					FEDD34D525F9A0AA0065E706 = {
+						CreatedOnToolsVersion = 12.4;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = 493FF4FB1D40FC7C51DDDA6B /* Build configuration list for PBXProject "Charts" */;
@@ -777,6 +795,7 @@
 			targets = (
 				A58A4ED274A941CA248EA921 /* Charts */,
 				F2749BD5443C1CB5FE2080C2 /* ChartsTests */,
+				FEDD34D525F9A0AA0065E706 /* Aggregate */,
 			);
 		};
 /* End PBXProject section */
@@ -826,6 +845,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "exec \"${SRCROOT}/scripts/build-dependencies.sh\"";
+		};
+		FEDD34DD25F9A0BA0065E706 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Constants\nSF_TARGET_NAME=${PROJECT_NAME}\nUNIVERSAL_OUTPUTFOLDER=${SRCROOT}/Release-universal\n\nWORKSPACE_NAME=${PROJECT_NAME}.xcworkspace\nYO_SCHEME=${PROJECT_NAME}\nYO_CONFIGURATION=\"Release\"\n\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}\"\nmkdir -p \"${UNIVERSAL_OUTPUTFOLDER}\"\n\n# Copy the framework structure to the universal folder (clean it first)\nxcodebuild -workspace ${WORKSPACE_NAME} -scheme ${YO_SCHEME} -destination \"generic/platform=iOS Simulator\" MACH_O_TYPE=staticlib ONLY_ACTIVE_ARCH=NO -sdk iphonesimulator -configuration ${YO_CONFIGURATION} OBJROOT=\"${OBJROOT}/DependentBuilds\"\nlipo \"${BUILD_DIR}/${YO_CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -remove arm64 -output \"${BUILD_DIR}/${YO_CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\nlipo -info \"${BUILD_DIR}/${YO_CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\ncp -R \"${BUILD_DIR}/${YO_CONFIGURATION}-iphonesimulator/${PROJECT_NAME}.framework\" \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework\"\n\nxcodebuild -workspace ${WORKSPACE_NAME} -scheme ${YO_SCHEME} -destination \"generic/platform=iOS\" MACH_O_TYPE=staticlib ONLY_ACTIVE_ARCH=NO -sdk iphoneos clean build -configuration ${YO_CONFIGURATION} OBJROOT=\"${OBJROOT}/DependentBuilds\"\n\n# 合并模拟器和真机的架构\nlipo -create \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\" \"${BUILD_DIR}/${YO_CONFIGURATION}-iphoneos/${PROJECT_NAME}.framework/${PROJECT_NAME}\" -output \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Info.plist\"\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/Modules\"\nrm -rf \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/_CodeSignature\"\n\nlipo -info \"${UNIVERSAL_OUTPUTFOLDER}/${PROJECT_NAME}.framework/${PROJECT_NAME}\"\n\nopen \"${UNIVERSAL_OUTPUTFOLDER}\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1246,6 +1282,22 @@
 			};
 			name = Release;
 		};
+		FEDD34D625F9A0AA0065E706 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		FEDD34D725F9A0AA0065E706 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1272,6 +1324,15 @@
 			buildConfigurations = (
 				D9365FBCFFEE9FCFC79EC4C7 /* Release */,
 				0EF2164C35AB4D391B503317 /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FEDD34D825F9A0AA0065E706 /* Build configuration list for PBXAggregateTarget "Aggregate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FEDD34D625F9A0AA0065E706 /* Debug */,
+				FEDD34D725F9A0AA0065E706 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
